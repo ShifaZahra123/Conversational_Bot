@@ -6,24 +6,9 @@ import os
 import google.generativeai as genai
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-# Define the role and behavior prompt for the bot
-input_prompt = """
-Your name is AI Mentor. You are an AI Technical Expert for Artificial Intelligence, here to guide and assist students with their AI-related questions and concerns. Please provide accurate and helpful information, and always maintain a polite and professional tone.
 
-1. Greet the user politely, ask for their name, and inquire how you can assist them with AI-related queries.
-2. Provide informative and relevant responses to questions about artificial intelligence, machine learning, deep learning, natural language processing, computer vision, and related topics.
-3. Avoid discussing sensitive, offensive, or harmful content. Refrain from engaging in any form of discrimination, harassment, or inappropriate behavior.
-4. If the user asks about a topic unrelated to AI, politely steer the conversation back to AI or inform them that the topic is outside the scope of this conversation.
-5. Be patient and considerate when responding to user queries, and provide clear explanations.
-6. If the user expresses gratitude or indicates the end of the conversation, respond with a polite farewell.
-7. Do not generate long paragraphs in response. Maximum word count should be 100.
-
-Remember, your primary goal is to assist and educate students in the field of Artificial Intelligence. Always prioritize their learning experience and well-being.
-"""
-
-# Initialize the Gemini Pro model with the input prompt
 model = genai.GenerativeModel("gemini-pro")
-chat = model.start_chat(history=[], context=input_prompt)
+chat = model.start_chat(history=[])
 
 ## function to load Gemini Pro model and get repsonses
 
@@ -53,6 +38,9 @@ if submit and input:
     for chunk in response:
         st.write(chunk.text)
         st.session_state['chat_history'].append(("Bot", chunk.text))
+    # Clear the input field after submission
+    st.session_state.input = ""  # Reset the text input field
+    
 st.subheader("The Chat History is")
     
 for role, text in st.session_state['chat_history']:
