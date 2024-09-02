@@ -36,8 +36,7 @@ if submit and input:
     for chunk in response:
         st.write(chunk.text)
         st.session_state['chat_history'].append(("Bot", chunk.text))
-     # Clear the input field after submission
-    st.session_state.input = ""  # Reset the text input field
+
 st.subheader("The Chat History is")
     
 for role, text in st.session_state['chat_history']:
